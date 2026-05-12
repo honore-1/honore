@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Registration | Innovate Academy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #0f1117;
+      --cream:  #f5f0e8;
+      --gold:   #c8973a;
+      --rust:   #b84c2e;
+      --mist:   #dcd6cb;
+      --white:  #ffffff;
+      --radius: 4px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 3px solid var(--gold);
+    }
+    .logo-mark {
+      width: 44px; height: 44px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px; color: var(--ink); font-weight: 900;
+      flex-shrink: 0;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; letter-spacing: .04em;
+    }
+    header span { font-size: .78rem; opacity: .55; display: block; margin-top: 2px; }
+
+    /* ── LAYOUT ── */
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      max-width: 1100px;
+      margin: 48px auto;
+      width: 100%;
+      gap: 0;
+      background: var(--white);
+      box-shadow: 0 8px 60px rgba(0,0,0,.12);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    aside {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 48px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    aside::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        135deg,
+        transparent,
+        transparent 28px,
+        rgba(200,151,58,.06) 28px,
+        rgba(200,151,58,.06) 29px
+      );
+    }
+    aside h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      line-height: 1.25;
+      position: relative;
+    }
+    aside h2 em { color: var(--gold); font-style: normal; }
+    aside p {
+      font-size: .85rem;
+      line-height: 1.7;
+      opacity: .65;
+      position: relative;
+    }
+
+    .steps { list-style: none; display: flex; flex-direction: column; gap: 18px; position: relative; }
+    .steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: .82rem;
+      opacity: .7;
+    }
+    .step-num {
+      width: 26px; height: 26px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: grid; place-items: center;
+      font-size: .7rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .steps li strong { display: block; color: var(--cream); opacity: 1; margin-bottom: 2px; font-weight: 500; }
+
+    /* ── FORM PANEL ── */
+    .form-panel {
+      padding: 48px 52px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .form-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--ink);
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
+      margin-bottom: 4px;
+    }
+
+    .field-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 24px;
+    }
+    .field-group.full { grid-template-columns: 1fr; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    label {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: #666;
+    }
+    label span.req { color: var(--rust); margin-left: 2px; }
+
+    input, select, textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      padding: 11px 14px;
+      border: 1.5px solid var(--mist);
+      border-radius: var(--radius);
+      background: var(--cream);
+      color: var(--ink);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,151,58,.15);
+      background: var(--white);
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    select { cursor: pointer; }
+
+    /* radio / checkbox group */
+    .radio-group, .check-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+      margin-top: 4px;
+    }
+    .radio-group label, .check-group label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: .88rem;
+      font-weight: 400;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--gold);
+      padding: 0; margin: 0;
+      flex-shrink: 0;
+    }
+
+    /* photo upload */
+    .upload-box {
+      border: 2px dashed var(--mist);
+      border-radius: var(--radius);
+      padding: 22px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s;
+      background: var(--cream);
+      position: relative;
+    }
+    .upload-box:hover { border-color: var(--gold); }
+    .upload-box input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+      width: 100%; height: 100%;
+      padding: 0; border: none;
+    }
+    .upload-box .icon { font-size: 2rem; display: block; margin-bottom: 6px; }
+    .upload-box p { font-size: .8rem; color: #888; }
+    .upload-box strong { color: var(--gold); }
+
+    /* progress bar */
+    .progress-bar {
+      background: var(--mist);
+      height: 5px;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: -12px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--rust));
+      border-radius: 99px;
+      width: 0%;
+      transition: width .4s ease;
+    }
+
+    /* submit */
+    .form-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 8px;
+      border-top: 1px solid var(--mist);
+      gap: 16px;
+    }
+    .form-actions p { font-size: .78rem; color: #888; }
+
+    button[type="submit"] {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .9rem;
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      padding: 13px 36px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+      white-space: nowrap;
+    }
+    button[type="submit"]:hover { background: var(--gold); color: var(--ink); }
+    button[type="submit"]:active { transform: scale(.98); }
+
+    button[type="reset"] {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      background: none;
+      border: 1.5px solid var(--mist);
+      color: #888;
+      padding: 11px 22px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    button[type="reset"]:hover { border-color: var(--rust); color: var(--rust); }
+
+    /* success message */
+    #success-msg {
+      display: none;
+      background: #e8f5e9;
+      border-left: 4px solid #388e3c;
+      color: #1b5e20;
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      font-size: .9rem;
+      margin-top: -12px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: .75rem;
+      color: #aaa;
+    }
+
+    @media (max-width: 768px) {
+      main { grid-template-columns: 1fr; margin: 0; border-radius: 0; }
+      aside { padding: 32px 24px; }
+      .form-panel { padding: 32px 24px; }
+      .field-group { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">I</div>
+  <div>
+    <h1>Innovate Company Ltd</h1>
+    <span>Nyagatare District · Student Services Portal</span>
+  </div>
+</header>
+
+<main>
+  <!-- SIDEBAR -->
+  <aside>
+    <h2>Student<br/><em>Registration</em><br/>Form</h2>
+    <p>Complete all required fields to enroll. Your information is kept strictly confidential and used only for academic administration.</p>
+    <ol class="steps">
+      <li>
+        <div class="step-num">1</div>
+        <div><strong>Personal Details</strong>Full name, date of birth, and gender</div>
+      </li>
+      <li>
+        <div class="step-num">2</div>
+        <div><strong>Contact Info</strong>Phone, email, and home address</div>
+      </li>
+      <li>
+        <div class="step-num">3</div>
+        <div><strong>Academic Background</strong>Previous school and qualifications</div>
+      </li>
+      <li>
+        <div class="step-num">4</div>
+        <div><strong>Programme Choice</strong>Select your desired course</div>
+      </li>
+      <li>
+        <div class="step-num">5</div>
+        <div><strong>Submit</strong>Review and confirm your application</div>
+      </li>
+    </ol>
+  </aside>
+
+  <!-- FORM PANEL -->
+  <div class="form-panel">
+    <div class="progress-bar"><div class="progress-bar-fill" id="progress"></div></div>
+
+    <div id="success-msg">✅ Registration submitted successfully! You will receive a confirmation email shortly.</div>
+
+    <form id="reg-form" novalidate>
+
+      <!-- 1. Personal Details -->
+      <section>
+        <p class="form-section-title">1 · Personal Details</p>
+        <div class="field-group" style="margin-top:16px;">
+          <div class="field">
+            <label>First Name <span class="req">*</span></label>
+            <input type="text" name="first_name" placeholder="e.g. Annet" required/>
+          </div>
+          <div class="field">
+            <label>Last Name <span class="req">*</span></label>
+            <input type="text" name="last_name" placeholder="e.g. Uwase" required/>
+          </div>
+          <div class="field">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input type="date" name="dob" required/>
+          </div>
+          <div class="field">
+            <label>National ID / Passport <span class="req">*</span></label>
+            <input type="text" name="national_id" placeholder="ID or passport number" required/>
+          </div>
+          <div class="field full">
+            <label>Gender <span class="req">*</span></label>
+            <div class="radio-group">
+              <label><input type="radio" name="gender" value="male" required/> Male</label>
+              <label><input type="radio" name="gender" value="female"/> Female</label>
+              <label><input type="radio" name="gender" value="other"/> Other</label>
+              <label><input type="radio" name="gender" value="prefer_not"/> Prefer not to say</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Contact Information -->
+      <section>
+        <p class="form-section-title">2 · Contact Information</p>
+        <div class="field-group" style="margin-top:16px;">
+          <div class="field">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" name="phone" placeholder="+250 7XX XXX XXX" required/>
+          </div>
+          <div class="field">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" name="email" placeholder="you@example.com" required/>
+          </div>
+          <div class="field full">
+            <label>Home Address <span class="req">*</span></label>
+            <textarea name="address" placeholder="District, Sector, Cell, Village" required></textarea>
+          </div>
+          <div class="field">
+            <label>Province <span class="req">*</span></label>
+            <select name="province" required>
+              <option value="">— Select Province —</option>
+              <option>Kigali City</option>
+              <option>Eastern Province</option>
+              <option>Western Province</option>
+              <option>Northern Province</option>
+              <option>Southern Province</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>District <span class="req">*</span></label>
+            <input type="text" name="district" placeholder="e.g. Nyagatare" required/>
+          </div>
+          <div class="field">
+            <label>Emergency Contact Name</label>
+            <input type="text" name="emergency_name" placeholder="Full name"/>
+          </div>
+          <div class="field">
+            <label>Emergency Contact Phone</label>
+            <input type="tel" name="emergency_phone" placeholder="+250 7XX XXX XXX"/>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Academic Background -->
+      <section>
+        <p class="form-section-title">3 · Academic Background</p>
+        <div class="field-group" style="margin-top:16px;">
+          <div class="field">
+            <label>Previous School <span class="req">*</span></label>
+            <input type="text" name="prev_school" placeholder="Name of last school attended" required/>
+          </div>
+          <div class="field">
+            <label>Year of Completion <span class="req">*</span></label>
+            <input type="number" name="completion_year" placeholder="e.g. 2023" min="1990" max="2026" required/>
+          </div>
+          <div class="field">
+            <label>Highest Qualification <span class="req">*</span></label>
+            <select name="qualification" required>
+              <option value="">— Select —</option>
+              <option>O-Level (S3)</option>
+              <option>A-Level (S6)</option>
+              <option>TVET Certificate</option>
+              <option>Diploma</option>
+              <option>Bachelor's Degree</option>
+              <option>Master's Degree</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Aggregate / GPA</label>
+            <input type="text" name="grade" placeholder="e.g. B+ or 3.5"/>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Programme -->
+      <section>
+        <p class="form-section-title">4 · Programme &amp; Preferences</p>
+        <div class="field-group" style="margin-top:16px;">
+          <div class="field">
+            <label>Desired Programme <span class="req">*</span></label>
+            <select name="programme" required>
+              <option value="">— Select Programme —</option>
+              <option>Computer Science</option>
+              <option>Information Technology</option>
+              <option>Software Engineering</option>
+              <option>Data Science &amp; AI</option>
+              <option>Electrical Engineering</option>
+              <option>Civil Engineering</option>
+              <option>Business Administration</option>
+              <option>Accounting &amp; Finance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Study Mode <span class="req">*</span></label>
+            <select name="study_mode" required>
+              <option value="">— Select —</option>
+              <option>Full-time (Day)</option>
+              <option>Part-time (Evening)</option>
+              <option>Weekend</option>
+              <option>Online / Distance</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Intake Year <span class="req">*</span></label>
+            <select name="intake" required>
+              <option value="">— Select Year —</option>
+              <option>2025</option>
+              <option>2026</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Intake Semester <span class="req">*</span></label>
+            <select name="semester" required>
+              <option value="">— Select —</option>
+              <option>Semester I (Jan – Jun)</option>
+              <option>Semester II (Jul – Dec)</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>How did you hear about us?</label>
+            <div class="check-group">
+              <label><input type="checkbox" name="referral" value="social_media"/> Social Media</label>
+              <label><input type="checkbox" name="referral" value="friend"/> Friend / Family</label>
+              <label><input type="checkbox" name="referral" value="school"/> School</label>
+              <label><input type="checkbox" name="referral" value="radio_tv"/> Radio / TV</label>
+              <label><input type="checkbox" name="referral" value="website"/> Website</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Photo Upload -->
+      <section>
+        <p class="form-section-title">5 · Passport Photo</p>
+        <div class="upload-box" style="margin-top:16px;">
+          <input type="file" name="photo" accept="image/*"/>
+          <span class="icon">📷</span>
+          <p><strong>Click to upload</strong> or drag &amp; drop</p>
+          <p>PNG, JPG up to 2 MB — white background preferred</p>
+        </div>
+      </section>
+
+      <!-- Declaration -->
+      <section>
+        <div class="check-group">
+          <label>
+            <input type="checkbox" name="declaration" required/>
+            I confirm that all information provided is accurate and complete to the best of my knowledge. <span class="req">*</span>
+          </label>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <p>Fields marked <span style="color:var(--rust)">*</span> are required</p>
+        <div style="display:flex;gap:12px;">
+          <button type="reset">Clear Form</button>
+          <button type="submit">Submit Registration →</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</main>
+
+<footer>© 2025 Innovate Company Ltd · Nyagatare District, Rwanda · All Rights Reserved</footer>
+
+<script>
+  const form = document.getElementById('reg-form');
+  const progress = document.getElementById('progress');
+  const successMsg = document.getElementById('success-msg');
+
+  // Live progress tracking
+  const requiredFields = form.querySelectorAll('[required]');
+  function updateProgress() {
+    let filled = 0;
+    requiredFields.forEach(f => {
+      if (f.type === 'radio' || f.type === 'checkbox') {
+        const group = form.querySelectorAll(`[name="${f.name}"]:checked`);
+        if (group.length > 0) filled++;
+      } else if (f.value.trim() !== '') {
+        filled++;
+      }
+    });
+    // de-duplicate radio groups
+    const radioNames = [...new Set([...requiredFields].filter(f => f.type === 'radio').map(f => f.name))];
+    const totalUnique = requiredFields.length - [...requiredFields].filter(f => f.type === 'radio').length + radioNames.length;
+    const pct = Math.min(100, Math.round((filled / totalUnique) * 100));
+    progress.style.width = pct + '%';
+  }
+
+  form.addEventListener('input', updateProgress);
+  form.addEventListener('change', updateProgress);
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    successMsg.style.display = 'block';
+    successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    progress.style.width = '100%';
+  });
+
+  form.addEventListener('reset', function() {
+    successMsg.style.display = 'none';
+    setTimeout(updateProgress, 50);
+  });
+</script>
+</body>
+</html>
